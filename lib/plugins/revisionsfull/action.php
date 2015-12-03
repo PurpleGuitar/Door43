@@ -499,6 +499,37 @@ function revisionsfull_html_diff($text = '', $intro = true, $type = null) {
             </tr>
         <?php } else {
             if(!$text) { ?>
+                <?php if (is_null($rev3) == false) { ?>
+                    <tr>
+                        <td colspan="2" class="diffnav" style="width: 33%">
+                            <select id="select-status-diff1">
+                                <option value="other">(status)</option>
+                                <option value="check">Check</option>
+                                <option value="review">Review</option>
+                                <option value="publish">Publish</option>
+                                <option value="current">Current</option>
+                            </select>
+                        </td>
+                        <td colspan="2" class="diffnav" style="width: 33%">
+                            <select id="select-status-diff2">
+                                <option value="other">(status)</option>
+                                <option value="check">Check</option>
+                                <option value="review">Review</option>
+                                <option value="publish">Publish</option>
+                                <option value="current">Current</option>
+                            </select>
+                        </td>
+                        <td colspan="2" class="diffnav" style="width: 33%">
+                            <select id="select-status-diff3">
+                                <option value="other">(status)</option>
+                                <option value="check">Check</option>
+                                <option value="review">Review</option>
+                                <option value="publish">Publish</option>
+                                <option value="current">Current</option>
+                            </select>
+                        </td>
+                    </tr>
+                <?php } ?>
                 <tr>
                     <?php if (is_null($rev3) == false) { ?>
                         <td colspan="2" class="diffnav" style="width: 33%"><?php echo $l_nav ?></td>
