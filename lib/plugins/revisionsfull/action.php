@@ -8,6 +8,8 @@ if(!defined('DOKU_INC')) die();
 
 if(!class_exists('PageChangeLog')) require 'changelog.php';
  
+# Grab utils class from chunkprogress plugin
+require_once DOKU_PLUGIN."chunkprogress/utils.php";
  
 class action_plugin_revisionsfull extends DokuWiki_Action_Plugin {
  
@@ -499,37 +501,33 @@ function revisionsfull_html_diff($text = '', $intro = true, $type = null) {
             </tr>
         <?php } else {
             if(!$text) { ?>
-                <?php if (is_null($rev3) == false) { ?>
+                <?php if (is_null($rev3) == false) { 
+                    $status_breakpoints = getStatusBreakpointsForPage($ID);
+                    function generate_selector($diffnum, $rev) {
+                        echo '<td colspan="2" class="diffnav" style="width: 33%">';
+                        echo '<select id="select-status-diff'.$diffnum.'">';
+                        echo '<option value="other">(status)</option>';
+
+                        echo '<option value="check"';
+                        echo '>Check</option>';
+
+                        echo '<option value="review">Review</option>';
+
+                        echo '<option value="publish">Publish</option>';
+
+                        echo '<option value="current">Current</option>';
+                        echo '</select>';
+                        echo '</td>';
+                    }
+                    ?>
                     <tr>
-                        <td colspan="2" class="diffnav" style="width: 33%">
-                            <select id="select-status-diff1">
-                                <option value="other">(status)</option>
-                                <option value="check">Check</option>
-                                <option value="review">Review</option>
-                                <option value="publish">Publish</option>
-                                <option value="current">Current</option>
-                            </select>
-                        </td>
-                        <td colspan="2" class="diffnav" style="width: 33%">
-                            <select id="select-status-diff2">
-                                <option value="other">(status)</option>
-                                <option value="check">Check</option>
-                                <option value="review">Review</option>
-                                <option value="publish">Publish</option>
-                                <option value="current">Current</option>
-                            </select>
-                        </td>
-                        <td colspan="2" class="diffnav" style="width: 33%">
-                            <select id="select-status-diff3">
-                                <option value="other">(status)</option>
-                                <option value="check">Check</option>
-                                <option value="review">Review</option>
-                                <option value="publish">Publish</option>
-                                <option value="current">Current</option>
-                            </select>
-                        </td>
+                        <?php generate_selector(1, rev1); ?>
+                        <?php generate_selector(2, rev2); ?>
+                        <?php generate_selector(3, rev3); ?>
                     </tr>
-                <?php } ?>
+                    <?php 
+                } 
+                ?>
                 <tr>
                     <?php if (is_null($rev3) == false) { ?>
                         <td colspan="2" class="diffnav" style="width: 33%"><?php echo $l_nav ?></td>
